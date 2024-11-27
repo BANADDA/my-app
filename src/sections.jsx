@@ -14,22 +14,33 @@ import {
   Users,
   X,
 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import AboutScreen from './AboutScreen';
-import PageBuilder from './builder/PageBuilder';
+import { AuthContext } from './AuthContext';
 import ContactScreen from './ContactScreen';
 import DynamicPage from './DynamicPage'; // Component to render dynamic pages
 import { db } from './firebase-config'; // Adjust the path as needed
 import ImpactScreen from './ImpactScreen';
 import InitiativesScreen from './InitiativesScreen';
+import LoginModal from './LoginModal';
 import PartnersScreen from './partners';
 import PartnersSection from './PartnersSection';
 
 const ApsedecWebsite = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [pages, setPages] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleAdminNavigation = () => {
+    if (currentUser) {
+      handleNavigation('/admin');
+    } else {
+      setShowLoginModal(true);
+    }
+  };
 
   // Fetch pages from Firestore
   useEffect(() => {
@@ -154,13 +165,15 @@ const ApsedecWebsite = () => {
                   {page.title}
                 </button>
               ))}
-
-<button
-  onClick={() => handleNavigation('/admin')}
-  className="text-gray-700 hover:text-green-800 font-medium"
->
-  Admin
-</button>
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleAdminNavigation();
+                }}
+                className="block text-lg font-medium text-gray-900 hover:text-green-800 w-full text-left"
+              >
+                Admin
+              </button>
 
               <button
                 onClick={() => handleNavigation('/contact')}
@@ -225,6 +238,15 @@ const ApsedecWebsite = () => {
                   {page.title}
                 </button>
               ))}
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleAdminNavigation();
+                }}
+                className="block text-lg font-medium text-gray-900 hover:text-green-800 w-full text-left"
+              >
+                Admin
+              </button>
               <button
                 onClick={() => handleNavigation('/contact')}
                 className="w-full px-6 py-3 mt-4 text-white bg-green-800 rounded-lg hover:bg-green-900 transition"
@@ -463,10 +485,10 @@ const ApsedecWebsite = () => {
           path="/home"
           element={<ApsedecWebsite pages={pages} onNavigate={handleNavigation} />}
         />
-        <Route
+        {/* <Route
           path="/admin"
           element={<PageBuilder pages={pages} onNavigate={handleNavigation} />}
-        />
+        /> */}
 
         {/* About Route */}
         <Route
@@ -628,6 +650,15 @@ const ApsedecWebsite = () => {
           </div>
         </div>
       </footer>
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          onLoginSuccess={() => {
+            setShowLoginModal(false);
+            handleNavigation('/admin');
+          }}
+        />
+      )}
     </div>
   );
 };
