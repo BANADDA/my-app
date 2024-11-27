@@ -60,9 +60,9 @@ const PartnersSection = () => {
               '--tw-animate-iteration': 'infinite',
             }}
           >
-            {doubledPartners.map((partner) => (
+            {doubledPartners.map((partner, index) => (
               <div 
-                key={`${partner.id}-1`}
+                key={`partner-${partner.id}-${index}`}
                 className="flex-none w-56 group relative flex items-center justify-center p-8 bg-white rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-110"
               >
                 <img
@@ -116,4 +116,4 @@ const PartnersSection = () => {
   );
 };
 
-export default PartnersSection;
+export default PartnersSection

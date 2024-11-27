@@ -1,18 +1,18 @@
 import { getDownloadURL, getStorage, listAll, ref } from 'firebase/storage';
 import {
-    Camera,
-    ChevronLeft,
-    ChevronRight,
-    Grid,
-    Image as ImageIcon,
-    Layout,
-    Loader2,
-    X,
-    ZoomIn
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  Grid,
+  Image as ImageIcon,
+  Layout,
+  Loader2,
+  X,
+  ZoomIn
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
-const ImpactScreen = ({ onNavigate }) => {
+const ImpactScreen = ({ onNavigate, pages }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -151,14 +151,25 @@ const ImpactScreen = ({ onNavigate }) => {
                 Initiatives
               </button>
               <span className="text-green-800 font-medium">Impact</span>
-              <button 
+              <button
                 onClick={() => onNavigate('partners')}
                 className="text-gray-600 hover:text-green-700 transition-colors"
               >
                 Partners
               </button>
+
+              {/* Dynamically add page links */}
+              {pages.map((page) => (
+                <button
+                  key={page.slug}
+                  onClick={() => onNavigate(`/${page.slug}`)}
+                  className="text-gray-600 hover:text-green-700 capitalize"
+                >
+                  {page.title}
+                </button>
+              ))}
               <button
-              onClick={() => onNavigate('contact')}
+                onClick={() => onNavigate('contact')}
               className="px-4 py-2 bg-green-800 text-white rounded-lg hover:bg-green-700 transition-colors">
                 Contact Us
               </button>

@@ -1,10 +1,10 @@
 import {
-    ArrowRight,
-    Building,
-    ExternalLink,
-    Globe,
-    Handshake,
-    Users
+  ArrowRight,
+  Building,
+  ExternalLink,
+  Globe,
+  Handshake,
+  Users
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -74,7 +74,7 @@ const categories = [
   }
 ];
 
-const PartnersScreen = ({ onNavigate }) => {
+const PartnersScreen = ({ onNavigate, pages }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [filteredPartners, setFilteredPartners] = useState(partners);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -121,7 +121,23 @@ const PartnersScreen = ({ onNavigate }) => {
               >
                 Impact
               </button>
-              <span className="text-green-800 font-medium">Partners</span>
+              <button
+                onClick={() => onNavigate('/partners')}
+                className="text-green-800 font-medium"
+              >
+                Partners
+              </button>
+
+              {/* Dynamically add page links */}
+              {pages.map((page) => (
+                <button
+                  key={page.slug}
+                  onClick={() => onNavigate(`/${page.slug}`)}
+                  className="text-gray-600 hover:text-green-700 capitalize"
+                >
+                  {page.title}
+                </button>
+              ))}
               <button
               onClick={() => onNavigate('contact')}
               className="px-5 py-2.5 text-sm font-medium text-white bg-green-800 rounded-lg hover:bg-green-700">

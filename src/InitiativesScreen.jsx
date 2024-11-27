@@ -1,19 +1,19 @@
 import { collection, onSnapshot, query } from 'firebase/firestore';
 import {
-    ArrowLeft,
-    ArrowRight,
-    Calendar,
-    ChevronLeft,
-    ChevronRight,
-    Image as ImageIcon,
-    Loader2,
-    Menu,
-    X
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  Image as ImageIcon,
+  Loader2,
+  Menu,
+  X
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase-config';
 
-const InitiativesScreen = ({ onNavigate }) => {
+const InitiativesScreen = ({ onNavigate, pages }) => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedBlog, setSelectedBlog] = useState(null);
@@ -83,6 +83,17 @@ const InitiativesScreen = ({ onNavigate }) => {
             >
               Partners
             </button>
+
+{/* Dynamically add page links */}
+{pages.map((page) => (
+  <button
+    key={page.slug}
+    onClick={() => onNavigate(`/${page.slug}`)}
+    className="text-gray-600 hover:text-green-700 capitalize"
+  >
+    {page.title}
+  </button>
+))}
             <button
               onClick={() => onNavigate('contact')}
               className="px-5 py-2.5 text-sm font-medium text-white bg-green-800 rounded-lg hover:bg-green-900 focus:ring-4 focus:ring-green-200">

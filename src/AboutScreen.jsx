@@ -1,19 +1,19 @@
 import {
-    ArrowLeft,
-    ArrowUpRight,
-    Building,
-    CheckCircle,
-    Eye,
-    Mail,
-    Menu,
-    Phone,
-    Target,
-    Users,
-    X
+  ArrowLeft,
+  ArrowUpRight,
+  Building,
+  CheckCircle,
+  Eye,
+  Mail,
+  Menu,
+  Phone,
+  Target,
+  Users,
+  X
 } from 'lucide-react';
 import React, { useState } from 'react';
 
-const AboutScreen = ({ onNavigate }) => {
+const AboutScreen = ({ onNavigate, pages }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const objectives = [
@@ -65,6 +65,17 @@ const AboutScreen = ({ onNavigate }) => {
               >
                 Partners
               </button>
+
+{/* Dynamically add page links */}
+{pages.map((page) => (
+  <button
+    key={page.slug}
+    onClick={() => onNavigate(`/${page.slug}`)}
+    className="text-gray-600 hover:text-green-700 capitalize"
+  >
+    {page.title}
+  </button>
+))}
               <button className="px-5 py-2.5 text-sm font-medium text-white bg-green-800 rounded-lg hover:bg-green-900 focus:ring-4 focus:ring-green-200">
                 Contact Us
               </button>
